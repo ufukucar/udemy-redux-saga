@@ -6,6 +6,7 @@ import { createLogger } from 'redux-logger'
 import reduxPromiseMiddleware from 'redux-promise-middleware'
 
 import createSagaMiddleware from 'redux-saga'
+import { rootSaga } from '../sagas'
 
 //logger
 var logger = createLogger()
@@ -22,4 +23,8 @@ var store = createStore(
   {},
   composeWithDevTools(applyMiddleware(...middleware)),
 )
+
+// invoke root saga
+saga.run(rootSaga)
+
 export default store
