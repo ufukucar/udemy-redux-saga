@@ -36,16 +36,16 @@ function Tasks() {
     //dispatch
     dispatch(
       actions.createTask({
-        id: Math.floor(Math.random() * 10000000),
+        //id: Math.floor(Math.random() * 10000000),
         taskTitle: taskTitle,
         taskDateTime: taskDateTime,
       }),
     )
 
     //clear
-    setTaskTitle('')
-    setTaskDateTime('')
-    setIsNewTaskOpen(!isNewTaskOpen)
+    // setTaskTitle('')
+    // setTaskDateTime('')
+    // setIsNewTaskOpen(!isNewTaskOpen)
   }
 
   let onCancelClick = () => {

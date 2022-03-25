@@ -49,9 +49,7 @@ export const deleteTaskWorkerSaga = function* (action) {
   yield put({ type: actionTypes.DELETE_TASK_PENDING })
 
   try {
-    let response = yield axios.delete(
-      `http://localhost:7000/tasks/${action.payload}`,
-    )
+    yield axios.delete(`http://localhost:7000/tasks/${action.payload}`)
 
     // console.log('response: ', response)
     yield put({
