@@ -1,6 +1,8 @@
 import axios from 'axios'
 import * as actionTypes from '../constants/action-types'
-import { put } from 'redux-saga/effects'
+import { put, call } from 'redux-saga/effects'
+
+import * as api from '../api/tasks'
 
 // put = dispatch
 
@@ -10,7 +12,7 @@ export const fetchTasksWorkerSaga = function* () {
   yield put({ type: actionTypes.FETCH_TASKS_PENDING })
 
   try {
-    let response = yield axios.get('http://localhost:7000/tasks')
+    let response = yield call(api.fetchTasks)
 
     //console.log('response: ', response)
     yield put({
