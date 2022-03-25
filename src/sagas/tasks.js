@@ -12,6 +12,7 @@ export const fetchTasksWorkerSaga = function* () {
   yield put({ type: actionTypes.FETCH_TASKS_PENDING })
 
   try {
+    // call the promise and wait for its completion
     let response = yield call(api.fetchTasks)
 
     //console.log('response: ', response)
