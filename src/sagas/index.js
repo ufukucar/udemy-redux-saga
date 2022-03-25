@@ -4,6 +4,7 @@ import {
   deleteTaskWorkerSaga,
 } from './tasks.js'
 import {
+  all,
   debounce,
   fork,
   takeEvery,
@@ -27,8 +28,10 @@ export const employeesWatcherSaga = function* () {}
 export const rootSaga = function* () {
   console.log('rootSaga invoked')
 
-  yield fork(tasksWatcherSaga)
-  yield fork(employeesWatcherSaga)
+  yield all([fork(tasksWatcherSaga), fork(employeesWatcherSaga)])
+
+  //   yield fork(tasksWatcherSaga)
+  //   yield fork(employeesWatcherSaga)
 
   //FETCH_TASKS --> fetchTasksWorkerSaga
 }
