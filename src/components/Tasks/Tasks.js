@@ -3,26 +3,26 @@ import './Tasks.css'
 import Collapsible from '../Collapsible/Collapsible'
 import { useState, useEffect } from 'react'
 import actions from '../../actions'
-import { connect } from 'react-redux'
 import { toDisplayableDateFormat } from '../../utils/'
+import { useSelector, useDispatch } from 'react-redux'
 
-function Tasks({
-  tasks,
-  dispatchFetchTasks,
-  dispatchCreateTask,
-  dispatchDeleteTask,
-}) {
+function Tasks() {
   //state
   let [taskTitle, setTaskTitle] = useState('')
   let [taskDateTime, setTaskDateTime] = useState('')
   let [isNewTaskOpen, setIsNewTaskOpen] = useState(false)
   let [search, setSearch] = useState('')
 
+  // redusx state
+  let tasks = useSelector((state) => state.tasks)
+
+  // dispatch
+  let dispatch = useDispatch()
+
   //run on first render
   useEffect(() => {
-    //dispatch(actions.fetchTasks());
-    //dispatchFetchTasks();
-  }, [dispatchFetchTasks])
+    dispatch(actions.fetchTasks())
+  }, [dispatch])
 
   //get state from redux store
   let filteredTasks = []
@@ -34,11 +34,13 @@ function Tasks({
 
   let onSaveClick = () => {
     //dispatch
-    dispatchCreateTask({
-      id: Math.floor(Math.random() * 10000000),
-      taskTitle: taskTitle,
-      taskDateTime: taskDateTime,
-    })
+    dispatch(
+      actions.createTask({
+        id: Math.floor(Math.random() * 10000000),
+        taskTitle: taskTitle,
+        taskDateTime: taskDateTime,
+      }),
+    )
 
     //clear
     setTaskTitle('')
@@ -52,7 +54,7 @@ function Tasks({
 
   let onDeleteClick = (task) => {
     if (window.confirm('Are you sure to delete this task')) {
-      dispatchDeleteTask(task.id)
+      dispatch(actions.deleteTask(task.id))
     }
   }
 
@@ -199,14 +201,4 @@ function Tasks({
   )
 }
 
-const mapStateToProps = (state) => ({
-  tasks: state.tasks,
-})
-
-const mapDispatchToProps = {
-  dispatchFetchTasks: actions.fetchTasks,
-  dispatchCreateTask: actions.createTask,
-  dispatchDeleteTask: actions.deleteTask,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tasks)
+export default Tasks
