@@ -7,6 +7,7 @@ import {
   all,
   debounce,
   fork,
+  take,
   takeEvery,
   takeLatest,
   throttle,
@@ -18,6 +19,8 @@ export const tasksWatcherSaga = function* () {
 
   // yield debounce(1000, actionTypes.CREATE_TASK, createTaskWorkerSaga)
   yield throttle(1000 * 3, actionTypes.CREATE_TASK, createTaskWorkerSaga)
+
+  yield take(actionTypes.CREATE_TASK)
 
   yield takeEvery(actionTypes.DELETE_TASK, deleteTaskWorkerSaga)
 }
