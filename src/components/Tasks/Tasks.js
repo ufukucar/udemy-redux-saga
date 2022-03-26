@@ -58,6 +58,10 @@ function Tasks() {
     }
   }
 
+  let onFetchCancelClick = () => {
+    dispatch(actions.cancelFetchTasks())
+  }
+
   return (
     <div className="outer-container">
       <div className="container">
@@ -65,7 +69,19 @@ function Tasks() {
           <div className="app-title">
             <h1>
               Tasks&nbsp;
-              {tasks.loading ? <i className="fas fa-spinner fa-spin"></i> : ''}
+              {tasks.loading ? (
+                <>
+                  <i className="fas fa-spinner fa-spin"></i>
+                  <button
+                    className="button button-red"
+                    onClick={onFetchCancelClick}
+                  >
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                ''
+              )}
             </h1>
 
             {tasks.error ? <h2>{tasks.error.message}</h2> : ''}
@@ -195,6 +211,8 @@ function Tasks() {
             </div>
           ))}
           {/* task ends */}
+
+          {filteredTasks.length === 0 && <div>No tasks loaded</div>}
         </div>
       </div>
     </div>

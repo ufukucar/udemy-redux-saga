@@ -1,4 +1,4 @@
-import { createTask, deleteTask, fetchTasks } from "./tasks";
+import { createTask, deleteTask, fetchTasks, cancelFetchTasks } from './tasks'
 
-var actions = { createTask, deleteTask, fetchTasks };
-export default actions;
+var actions = { createTask, deleteTask, fetchTasks, cancelFetchTasks }
+export default actions

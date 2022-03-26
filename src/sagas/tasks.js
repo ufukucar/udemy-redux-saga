@@ -13,10 +13,10 @@ export const fetchTasksWorkerSaga = function* () {
 
   try {
     // call the promise and wait for its completion
-    //let response = yield call(api.fetchTasks)
+    let response = yield call(api.fetchTasks)
 
     // retry ( maxTries, delay, worker, ...args )
-    let response = yield retry(3, 4 * 1000, api.fetchTasks)
+    //let response = yield retry(3, 4 * 1000, api.fetchTasks)
 
     //console.log('response: ', response)
     yield put({
