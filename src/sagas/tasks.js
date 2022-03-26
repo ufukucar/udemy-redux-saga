@@ -1,8 +1,9 @@
 import axios from 'axios'
 import * as actionTypes from '../constants/action-types'
-import { put, call, retry } from 'redux-saga/effects'
+import { put, call, retry, race, take } from 'redux-saga/effects'
 
 import * as api from '../api/tasks'
+import { act } from '@testing-library/react'
 
 // put = dispatch
 
@@ -13,16 +14,29 @@ export const fetchTasksWorkerSaga = function* () {
 
   try {
     // call the promise and wait for its completion
-    let response = yield call(api.fetchTasks)
+    // let response = yield call(api.fetchTasks)
+
+    let { response, fetchCancel } = yield race({
+      response: call(api.fetchTasks),
+      fetchCancel: take(actionTypes.FETCH_TASKS_CANCEL),
+    })
+
+    if (fetchCancel) {
+      yield put({
+        type: actionTypes.FETCH_TASKS_REJECTED,
+        payload: { message: 'Canceled' },
+      })
+    } else {
+      yield put({
+        type: actionTypes.FETCH_TASKS_FULFILLED,
+        payload: response,
+      })
+    }
 
     // retry ( maxTries, delay, worker, ...args )
     //let response = yield retry(3, 4 * 1000, api.fetchTasks)
 
     //console.log('response: ', response)
-    yield put({
-      type: actionTypes.FETCH_TASKS_FULFILLED,
-      payload: response,
-    })
   } catch (error) {
     yield put({ type: actionTypes.FETCH_TASKS_REJECTED, payload: error })
   }

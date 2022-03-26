@@ -17,9 +17,9 @@ import {
 import * as actionTypes from '../constants/action-types'
 
 export const tasksWatcherSaga = function* () {
-  yield fork(fetchTasksWatcherSaga)
+  //yield fork(fetchTasksWatcherSaga)
 
-  // yield takeLatest(actionTypes.FETCH_TASKS, fetchTasksWorkerSaga)
+  yield takeLatest(actionTypes.FETCH_TASKS, fetchTasksWorkerSaga)
 
   // yield debounce(1000, actionTypes.CREATE_TASK, createTaskWorkerSaga)
   yield throttle(1000 * 3, actionTypes.CREATE_TASK, createTaskWorkerSaga)
