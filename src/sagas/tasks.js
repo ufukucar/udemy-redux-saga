@@ -1,6 +1,6 @@
 import axios from 'axios'
 import * as actionTypes from '../constants/action-types'
-import { put, call, retry, race, take } from 'redux-saga/effects'
+import { put, call, retry, race, take, select } from 'redux-saga/effects'
 
 import * as api from '../api/tasks'
 import { act } from '@testing-library/react'
@@ -10,6 +10,10 @@ import { act } from '@testing-library/react'
 // executes when the component dispatches FETCH_TASKS action
 export const fetchTasksWorkerSaga = function* () {
   // http requests
+
+  yield select((state) => {
+    console.log('state saga tasks: ', state)
+  })
   yield put({ type: actionTypes.FETCH_TASKS_PENDING })
 
   try {
@@ -32,7 +36,9 @@ export const fetchTasksWorkerSaga = function* () {
         payload: response,
       })
     }
-
+    yield select((state) => {
+      console.log('state saga state task data: ', state.tasks.data)
+    })
     // retry ( maxTries, delay, worker, ...args )
     //let response = yield retry(3, 4 * 1000, api.fetchTasks)
 
